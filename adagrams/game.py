@@ -1,6 +1,6 @@
 from random import randint
 
-def draw_letters():
+def draw_letters(): # list of letters. 
     letter_pool = [
         "A", "A", "A", "A", "A", "A", "A", "A", "A",
         "B", "B",
@@ -28,9 +28,9 @@ def draw_letters():
         "X",
         "Y", "Y",
         "Z"
-    ]
+    ] # 第一个 list
 
-    hand = []
+    hand = [] # 第二个 list
 
     for i in range(10):
         index = randint(0, len(letter_pool) - 1)
@@ -42,7 +42,7 @@ def draw_letters():
 
 
 def uses_available_letters(word, letter_bank):
-    #we need to copy first to make sure the orignial letter bank  not affect 
+    #we need to copy first to make sure the orignial letter bank  not affect
     available_letters = letter_bank.copy()
     for letter in word:
         letter = letter.upper()
@@ -60,7 +60,7 @@ def uses_available_letters(word, letter_bank):
     
 
 def score_word(word):
-    letter_scores = {
+    letter_scores = { # 按 points order so easy for later check and read grouped the letters by score, so the dictionary is easier to read. Letters with the same score are listed together.
         "A": 1,
         "E": 1,
         "I": 1,
@@ -98,7 +98,7 @@ def score_word(word):
     score = 0 
     for letter in word:
         letter = letter.upper()
-        score += letter_scores[letter] # dictionary use[] 
+        score += letter_scores[letter] 
     if len(word) >= 7:
         score += 8
     return score
@@ -106,25 +106,26 @@ def score_word(word):
 
 
 def get_highest_word_score(word_list):
+    # first assume first one word is winner 
     best_word = word_list[0]
     best_score = score_word(best_word)
-
+# iterate every word 
     for word in word_list:
         current_score = score_word(word)
-
+#if higher score update word and score  
         if current_score > best_score:
             best_word = word
             best_score = current_score
-
-        elif current_score == best_score:
-            if len(word) == 10 and len(best_word)!=10:
+#if same score  tie breaking. 
+        elif current_score == best_score: 
+            if len(word) == 10 and len(best_word)!=10: #10 letter word priority 
                 best_word = word
-                best_score = current_score
+               
 
-            elif len(word)!=10 and len(best_word) !=10:
+            elif len(word)!=10 and len(best_word) !=10:#if non 10 letters shorter wins 
                 if len(word) < len(best_word):
                     best_word = word
-                    best_score = current_score
+                   
 
     return (best_word,best_score)
                     
